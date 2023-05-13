@@ -1,94 +1,170 @@
 package com.vmware.talentboost;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.junit.jupiter.api.*;
+import org.junit.runner.Request;
 
-import java.util.stream.Stream;
+import java.text.MessageFormat;
+import java.util.List;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RESTAssuredFunctionalTests {
+
+    private static final String OWNER = "viktor-slavchev-vmware";
+    private static final String REPO = "talent-boost-demos";
+
+    private String issuesPath = MessageFormat.format("/repos/{0}/{1}/issues", OWNER, REPO);
+
+    private static RequestSpecBuilder builder;
+
+    private static RequestSpecification reqSpec;
 
     @BeforeAll
     static void setUp() {
-
-        RestAssured.baseURI = "https://swapi.dev/api/";
+        builder = new RequestSpecBuilder();
+        builder.setBaseUri("https://api.github.com/");
+        builder.addHeader("X-GitHub-Api-Version", "2022-11-28");
+        builder.addHeader("Authorization", "Bearer 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");
+        builder.addHeader("Accept", "application/vnd.github+json");
+        reqSpec = builder.build();
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+//        RestAssured.baseURI = "https://api.github.com";
     }
 
     @Test
-    public void testGetRequest200() {
-        Response response = given()
-                .when()
-                .get("/people/2")
-                .then()
-                .extract().response();
+    public void testGetIssues200() {
+        given()
+                .spec(reqSpec)
+        .when()
+            .get(MessageFormat.format("/repos/{0}/{1}/issues", OWNER, REPO))
+                .prettyPeek()
 
-        assertEquals(200, response.statusCode());
-        assertEquals("C-3PO", response.jsonPath().getString("name"));
+        .then()
+            .assertThat() // syntactic sugar, we can do it w/o it
+            .statusCode(200)
+//                .body("size()", is(5)) // anti-pattern, please DON'T do that
+                .body("title", hasItems("Issue number 1", "Issue number 2"))
+                .rootPath("user") // example of root path usage when we need to get nested property
+                .body("login", hasItem(OWNER))
+                .body("id", hasItem(77064887));
     }
 
-//    @ParameterizedTest
-////    @CsvSource({
-////            "1, 200, Luke Skywalker",
-////            "2, 200, C-3PO",
-////            "3, 200, R2-D2"
-////    })
-//    @ArgumentsSource(SWArgumentsProvider.class)
-//    public void testGetRequestLuke(int id, int statusCode, String name) {
-//
-//        Response response = given()
-//                .when()
-//                .get("/people/" + id)
-//                .then()
-//                .extract().response();
-//
-//        assertEquals(statusCode, response.statusCode());
-//        assertEquals(name, response.jsonPath().getString("name"));
-//    }
-//
-//    static class SWArgumentsProvider implements ArgumentsProvider {
-//
-//        @Override
-//        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-//            return Stream.of(
-//                    Arguments.of(1, 200, "Luke Skywalker"),
-//                    Arguments.of(2, 200, "C-3PO"));
-//        }
-//    }
+    @Test
+    public void testGetSpecificIssue200(){
+        given()
+                .spec(reqSpec)
+        .when()
+            .get(MessageFormat.format("/repos/{0}/{1}/issues/1", OWNER, REPO))
+            .prettyPeek()
 
-//    @Test
-//    public void testGetRequestC3PO() {
-//
-//        Response response = given()
-//                .when()
-//                .get("/people/2")
-//                .then()
-//                .extract().response();
-//
-//        assertEquals(200, response.statusCode());
-//        assertEquals("C-3PO", response.jsonPath().getString("name"));
-//
-//    }
-//
-//    @Test
-//    public void testGetRequestR2D2() {
-//
-//        Response response = given()
-//                .when()
-//                .get("/people/3")
-//                .then()
-//                .extract().response();
-//
-//        assertEquals(200, response.statusCode());
-//        assertEquals("R2-D2", response.jsonPath().getString("name"));
-//
-//    }
+        .then()
+            .assertThat() // syntactic sugar, we can do it w/o it
+            .statusCode(200)
+            .body("title", is("Issue number 1"));
+    }
+
+
+    @Test
+    public void testPostIssue201(){
+        JSONObject postParams = new JSONObject();
+        postParams.put("title", "Issue created by API");
+        postParams.put("body", "Also created by API");
+        JSONArray assignees = new JSONArray();
+        assignees.add(OWNER);
+        postParams.put("assignees", assignees);
+        given()
+                .spec(reqSpec)
+                .body(postParams.toJSONString())
+//                .body("{ \"title\": \"Issue created by API\", ...")
+        .when()
+                .post(issuesPath)
+                .prettyPeek()
+        .then()
+                .assertThat()
+                .statusCode(201);
+    }
+
+    @Test
+    public void testPatchIssue200(){
+        JSONObject postParams = new JSONObject();
+        postParams.put("title", "Edited by API");
+        postParams.put("body", "Also edited by API");
+        given()
+                .spec(reqSpec)
+                .body(postParams.toJSONString())
+        .when()
+                .patch(issuesPath + "/5")
+                .prettyPeek()
+        .then()
+            .assertThat()
+                .statusCode(200);
+    }
+
+    @Test
+    @Order(1)
+    public void testPutIssueLock204(){
+        given()
+                .spec(reqSpec)
+        .when()
+                .put(issuesPath + "/5/lock")
+                .prettyPeek()
+        .then()
+            .assertThat()
+                .statusCode(204);
+
+        // example of a second g/w/t chain to validate the result of the first request
+        given()
+                .spec(reqSpec)
+        .when()
+                .get(issuesPath + "/5")
+        .then()
+            .assertThat()
+                .body("locked", is(true));
+
+    }
+
+    @Test
+    @Order(2)
+    public void testDeleteUnlockIssue200(){
+        given()
+                .spec(reqSpec)
+        .when()
+                .delete(issuesPath + "/5/lock")
+                .prettyPeek()
+        .then()
+            .assertThat()
+                .statusCode(204);
+    }
+
+    @Test
+    public void testDelete(){
+        deleteCreatedIssues();
+    }
+
+    // Note this won't work, as github API doesn't support deletion of issues, so consider it just POC
+    public void deleteCreatedIssues(){
+        List<Integer> issues = given()
+                .spec(reqSpec)
+                .when()
+                .get("/issues")
+                .then()
+                .extract()
+                .jsonPath()
+                .get("number");
+
+        for (int issueId: issues){
+            given()
+                    .spec(reqSpec)
+                    .delete(issuesPath + "/" + issueId);
+        }
+    }
 }
