@@ -2,12 +2,14 @@ package com.vmware.talentboost;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.*;
 import org.junit.runner.Request;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -33,11 +35,10 @@ public class RESTAssuredFunctionalTests {
         builder = new RequestSpecBuilder();
         builder.setBaseUri("https://api.github.com/");
         builder.addHeader("X-GitHub-Api-Version", "2022-11-28");
-        builder.addHeader("Authorization", "Bearer ghp-something"); // don't commit valid tokens to a repo :)
+        builder.addHeader("Authorization", "Bearer something"); // don't commit valid tokens to a repo :)
         builder.addHeader("Accept", "application/vnd.github+json");
         reqSpec = builder.build();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-//        RestAssured.baseURI = "https://api.github.com";
     }
 
     @Test
@@ -70,6 +71,19 @@ public class RESTAssuredFunctionalTests {
             .assertThat() // syntactic sugar, we can do it w/o it
             .statusCode(200)
             .body("title", is("Issue number 1"));
+    }
+
+    @Test
+    public void testGetSpecificIssueJsonSchema(){
+        given()
+                .spec(reqSpec)
+        .when()
+                .get(MessageFormat.format("/repos/{0}/{1}/issues/1", OWNER, REPO))
+                .prettyPeek()
+
+        .then()
+            .assertThat()
+                .body(JsonSchemaValidator.matchesJsonSchema(new File("src/JSONSchemas/IssueJsonSchema.json")));
     }
 
 

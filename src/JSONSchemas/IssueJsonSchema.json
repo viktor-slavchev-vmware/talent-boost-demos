@@ -1,0 +1,621 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "title": "Root Schema",
+  "required": [
+    "url",
+    "repository_url",
+    "labels_url",
+    "comments_url",
+    "events_url",
+    "html_url",
+    "id",
+    "node_id",
+    "number",
+    "title",
+    "user",
+    "labels",
+    "state",
+    "locked",
+    "assignee",
+    "assignees",
+    "milestone",
+    "comments",
+    "created_at",
+    "updated_at",
+    "closed_at",
+    "author_association",
+    "active_lock_reason",
+    "body",
+    "closed_by",
+    "reactions",
+    "timeline_url",
+    "performed_via_github_app",
+    "state_reason"
+  ],
+  "properties": {
+    "url": {
+      "type": "string",
+      "default": "",
+      "title": "The url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1"
+      ]
+    },
+    "repository_url": {
+      "type": "string",
+      "default": "",
+      "title": "The repository_url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos"
+      ]
+    },
+    "labels_url": {
+      "type": "string",
+      "default": "",
+      "title": "The labels_url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/labels{/name}"
+      ]
+    },
+    "comments_url": {
+      "type": "string",
+      "default": "",
+      "title": "The comments_url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/comments"
+      ]
+    },
+    "events_url": {
+      "type": "string",
+      "default": "",
+      "title": "The events_url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/events"
+      ]
+    },
+    "html_url": {
+      "type": "string",
+      "default": "",
+      "title": "The html_url Schema",
+      "examples": [
+        "https://github.com/viktor-slavchev-vmware/talent-boost-demos/issues/1"
+      ]
+    },
+    "id": {
+      "type": "integer",
+      "default": 0,
+      "title": "The id Schema",
+      "examples": [
+        1706997718
+      ]
+    },
+    "node_id": {
+      "type": "string",
+      "default": "",
+      "title": "The node_id Schema",
+      "examples": [
+        "I_kwDOJhyu5s5lvrfW"
+      ]
+    },
+    "number": {
+      "type": "integer",
+      "default": 0,
+      "title": "The number Schema",
+      "examples": [
+        1
+      ]
+    },
+    "title": {
+      "type": "string",
+      "default": "",
+      "title": "The title Schema",
+      "examples": [
+        "Issue number 1"
+      ]
+    },
+    "user": {
+      "type": "object",
+      "default": {},
+      "title": "The user Schema",
+      "required": [
+        "login",
+        "id",
+        "node_id",
+        "avatar_url",
+        "gravatar_id",
+        "url",
+        "html_url",
+        "followers_url",
+        "following_url",
+        "gists_url",
+        "starred_url",
+        "subscriptions_url",
+        "organizations_url",
+        "repos_url",
+        "events_url",
+        "received_events_url",
+        "type",
+        "site_admin"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "default": "",
+          "title": "The login Schema",
+          "examples": [
+            "viktor-slavchev-vmware"
+          ]
+        },
+        "id": {
+          "type": "integer",
+          "default": 0,
+          "title": "The id Schema",
+          "examples": [
+            77064887
+          ]
+        },
+        "node_id": {
+          "type": "string",
+          "default": "",
+          "title": "The node_id Schema",
+          "examples": [
+            "MDQ6VXNlcjc3MDY0ODg3"
+          ]
+        },
+        "avatar_url": {
+          "type": "string",
+          "default": "",
+          "title": "The avatar_url Schema",
+          "examples": [
+            "https://avatars.githubusercontent.com/u/77064887?v=4"
+          ]
+        },
+        "gravatar_id": {
+          "type": "string",
+          "default": "",
+          "title": "The gravatar_id Schema",
+          "examples": [
+            ""
+          ]
+        },
+        "url": {
+          "type": "string",
+          "default": "",
+          "title": "The url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware"
+          ]
+        },
+        "html_url": {
+          "type": "string",
+          "default": "",
+          "title": "The html_url Schema",
+          "examples": [
+            "https://github.com/viktor-slavchev-vmware"
+          ]
+        },
+        "followers_url": {
+          "type": "string",
+          "default": "",
+          "title": "The followers_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/followers"
+          ]
+        },
+        "following_url": {
+          "type": "string",
+          "default": "",
+          "title": "The following_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/following{/other_user}"
+          ]
+        },
+        "gists_url": {
+          "type": "string",
+          "default": "",
+          "title": "The gists_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/gists{/gist_id}"
+          ]
+        },
+        "starred_url": {
+          "type": "string",
+          "default": "",
+          "title": "The starred_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/starred{/owner}{/repo}"
+          ]
+        },
+        "subscriptions_url": {
+          "type": "string",
+          "default": "",
+          "title": "The subscriptions_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/subscriptions"
+          ]
+        },
+        "organizations_url": {
+          "type": "string",
+          "default": "",
+          "title": "The organizations_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/orgs"
+          ]
+        },
+        "repos_url": {
+          "type": "string",
+          "default": "",
+          "title": "The repos_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/repos"
+          ]
+        },
+        "events_url": {
+          "type": "string",
+          "default": "",
+          "title": "The events_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/events{/privacy}"
+          ]
+        },
+        "received_events_url": {
+          "type": "string",
+          "default": "",
+          "title": "The received_events_url Schema",
+          "examples": [
+            "https://api.github.com/users/viktor-slavchev-vmware/received_events"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "default": "",
+          "title": "The type Schema",
+          "examples": [
+            "User"
+          ]
+        },
+        "site_admin": {
+          "type": "boolean",
+          "default": false,
+          "title": "The site_admin Schema",
+          "examples": [
+            false
+          ]
+        }
+      },
+      "examples": [{
+        "login": "viktor-slavchev-vmware",
+        "id": 77064887,
+        "node_id": "MDQ6VXNlcjc3MDY0ODg3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/77064887?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/viktor-slavchev-vmware",
+        "html_url": "https://github.com/viktor-slavchev-vmware",
+        "followers_url": "https://api.github.com/users/viktor-slavchev-vmware/followers",
+        "following_url": "https://api.github.com/users/viktor-slavchev-vmware/following{/other_user}",
+        "gists_url": "https://api.github.com/users/viktor-slavchev-vmware/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/viktor-slavchev-vmware/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/viktor-slavchev-vmware/subscriptions",
+        "organizations_url": "https://api.github.com/users/viktor-slavchev-vmware/orgs",
+        "repos_url": "https://api.github.com/users/viktor-slavchev-vmware/repos",
+        "events_url": "https://api.github.com/users/viktor-slavchev-vmware/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/viktor-slavchev-vmware/received_events",
+        "type": "User",
+        "site_admin": false
+      }]
+    },
+    "labels": {
+      "type": "array",
+      "default": [],
+      "title": "The labels Schema",
+      "items": {},
+      "examples": [
+        []
+      ]
+    },
+    "state": {
+      "type": "string",
+      "default": "",
+      "title": "The state Schema",
+      "examples": [
+        "open"
+      ]
+    },
+    "locked": {
+      "type": "boolean",
+      "default": false,
+      "title": "The locked Schema",
+      "examples": [
+        false
+      ]
+    },
+    "assignee": {
+      "type": "null",
+      "default": null,
+      "title": "The assignee Schema",
+      "examples": [
+        null
+      ]
+    },
+    "assignees": {
+      "type": "array",
+      "default": [],
+      "title": "The assignees Schema",
+      "items": {},
+      "examples": [
+        []
+      ]
+    },
+    "milestone": {
+      "type": "null",
+      "default": null,
+      "title": "The milestone Schema",
+      "examples": [
+        null
+      ]
+    },
+    "comments": {
+      "type": "integer",
+      "default": 0,
+      "title": "The comments Schema",
+      "examples": [
+        0
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "default": "",
+      "title": "The created_at Schema",
+      "examples": [
+        "2023-05-12T06:10:46Z"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "default": "",
+      "title": "The updated_at Schema",
+      "examples": [
+        "2023-05-13T12:13:46Z"
+      ]
+    },
+    "closed_at": {
+      "type": "null",
+      "default": null,
+      "title": "The closed_at Schema",
+      "examples": [
+        null
+      ]
+    },
+    "author_association": {
+      "type": "string",
+      "default": "",
+      "title": "The author_association Schema",
+      "examples": [
+        "OWNER"
+      ]
+    },
+    "active_lock_reason": {
+      "type": "null",
+      "default": null,
+      "title": "The active_lock_reason Schema",
+      "examples": [
+        null
+      ]
+    },
+    "body": {
+      "type": "string",
+      "default": "",
+      "title": "The body Schema",
+      "examples": [
+        "Some meaningful description"
+      ]
+    },
+    "closed_by": {
+      "type": "null",
+      "default": null,
+      "title": "The closed_by Schema",
+      "examples": [
+        null
+      ]
+    },
+    "reactions": {
+      "type": "object",
+      "default": {},
+      "title": "The reactions Schema",
+      "required": [
+        "url",
+        "total_count",
+        "+1",
+        "-1",
+        "laugh",
+        "hooray",
+        "confused",
+        "heart",
+        "rocket",
+        "eyes"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "default": "",
+          "title": "The url Schema",
+          "examples": [
+            "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/reactions"
+          ]
+        },
+        "total_count": {
+          "type": "integer",
+          "default": 0,
+          "title": "The total_count Schema",
+          "examples": [
+            0
+          ]
+        },
+        "+1": {
+          "type": "integer",
+          "default": 0,
+          "title": "The +1 Schema",
+          "examples": [
+            0
+          ]
+        },
+        "-1": {
+          "type": "integer",
+          "default": 0,
+          "title": "The -1 Schema",
+          "examples": [
+            0
+          ]
+        },
+        "laugh": {
+          "type": "integer",
+          "default": 0,
+          "title": "The laugh Schema",
+          "examples": [
+            0
+          ]
+        },
+        "hooray": {
+          "type": "integer",
+          "default": 0,
+          "title": "The hooray Schema",
+          "examples": [
+            0
+          ]
+        },
+        "confused": {
+          "type": "integer",
+          "default": 0,
+          "title": "The confused Schema",
+          "examples": [
+            0
+          ]
+        },
+        "heart": {
+          "type": "integer",
+          "default": 0,
+          "title": "The heart Schema",
+          "examples": [
+            0
+          ]
+        },
+        "rocket": {
+          "type": "integer",
+          "default": 0,
+          "title": "The rocket Schema",
+          "examples": [
+            0
+          ]
+        },
+        "eyes": {
+          "type": "integer",
+          "default": 0,
+          "title": "The eyes Schema",
+          "examples": [
+            0
+          ]
+        }
+      },
+      "examples": [{
+        "url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      }]
+    },
+    "timeline_url": {
+      "type": "string",
+      "default": "",
+      "title": "The timeline_url Schema",
+      "examples": [
+        "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/timeline"
+      ]
+    },
+    "performed_via_github_app": {
+      "type": "null",
+      "default": null,
+      "title": "The performed_via_github_app Schema",
+      "examples": [
+        null
+      ]
+    },
+    "state_reason": {
+      "type": "null",
+      "default": null,
+      "title": "The state_reason Schema",
+      "examples": [
+        null
+      ]
+    }
+  },
+  "examples": [{
+    "url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1",
+    "repository_url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos",
+    "labels_url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/labels{/name}",
+    "comments_url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/comments",
+    "events_url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/events",
+    "html_url": "https://github.com/viktor-slavchev-vmware/talent-boost-demos/issues/1",
+    "id": 1706997718,
+    "node_id": "I_kwDOJhyu5s5lvrfW",
+    "number": 1,
+    "title": "Issue number 1",
+    "user": {
+      "login": "viktor-slavchev-vmware",
+      "id": 77064887,
+      "node_id": "MDQ6VXNlcjc3MDY0ODg3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77064887?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/viktor-slavchev-vmware",
+      "html_url": "https://github.com/viktor-slavchev-vmware",
+      "followers_url": "https://api.github.com/users/viktor-slavchev-vmware/followers",
+      "following_url": "https://api.github.com/users/viktor-slavchev-vmware/following{/other_user}",
+      "gists_url": "https://api.github.com/users/viktor-slavchev-vmware/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/viktor-slavchev-vmware/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/viktor-slavchev-vmware/subscriptions",
+      "organizations_url": "https://api.github.com/users/viktor-slavchev-vmware/orgs",
+      "repos_url": "https://api.github.com/users/viktor-slavchev-vmware/repos",
+      "events_url": "https://api.github.com/users/viktor-slavchev-vmware/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/viktor-slavchev-vmware/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2023-05-12T06:10:46Z",
+    "updated_at": "2023-05-13T12:13:46Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "active_lock_reason": null,
+    "body": "Some meaningful description",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/viktor-slavchev-vmware/talent-boost-demos/issues/1/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null
+  }]
+}
