@@ -33,7 +33,7 @@ public class RESTAssuredFunctionalTests {
         builder = new RequestSpecBuilder();
         builder.setBaseUri("https://api.github.com/");
         builder.addHeader("X-GitHub-Api-Version", "2022-11-28");
-        builder.addHeader("Authorization", "Bearer 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");
+        builder.addHeader("Authorization", "Bearer ghp-something"); // don't commit valid tokens to a repo :)
         builder.addHeader("Accept", "application/vnd.github+json");
         reqSpec = builder.build();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
