@@ -1,19 +1,21 @@
 package com.vmware.talentboost;
 
+import com.vmware.talentboost.objects.Issue;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.junit.AfterClass;
 import org.junit.jupiter.api.*;
-import org.junit.runner.Request;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +37,7 @@ public class RESTAssuredFunctionalTests {
         builder = new RequestSpecBuilder();
         builder.setBaseUri("https://api.github.com/");
         builder.addHeader("X-GitHub-Api-Version", "2022-11-28");
-        builder.addHeader("Authorization", "Bearer something"); // don't commit valid tokens to a repo :)
+        builder.addHeader("Authorization", "Bearer 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"); // don't commit valid tokens to a repo :)
         builder.addHeader("Accept", "application/vnd.github+json");
         reqSpec = builder.build();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
@@ -84,6 +86,35 @@ public class RESTAssuredFunctionalTests {
         .then()
             .assertThat()
                 .body(JsonSchemaValidator.matchesJsonSchema(new File("src/JSONSchemas/IssueJsonSchema.json")));
+    }
+
+    @Test
+    public void testSpecificIssueObjectMapping(){
+        Issue queriedIssue = given()
+            .spec(reqSpec)
+        .when()
+            .get(MessageFormat.format("/repos/{0}/{1}/issues/1", OWNER, REPO))
+                .as(Issue.class);
+        assertEquals(queriedIssue.getTitle(), "Issue number 1");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1, Issue number 1, Some meaningful description",
+            "2, Issue number 2, Another meaningful description"
+    })
+    public void testSpecificIssueDataDriven(int number, String title, String body){
+        given()
+            .spec(reqSpec)
+        .when()
+            .get(MessageFormat.format("/repos/{0}/{1}/issues/{2}", OWNER, REPO, number))
+            .prettyPeek()
+
+        .then()
+            .assertThat() // syntactic sugar, we can do it w/o it
+            .statusCode(200)
+            .body("title", is(title))
+            .body("body", is(body));
     }
 
 
@@ -164,13 +195,19 @@ public class RESTAssuredFunctionalTests {
         deleteCreatedIssues();
     }
 
+    @AfterClass
+    public static void tearDown(){
+        deleteCreatedIssues();
+    }
+
     // Note this won't work, as github API doesn't support deletion of issues, so consider it just POC
-    public void deleteCreatedIssues(){
-        List<Integer> issues = given()
+    public  static void deleteCreatedIssues(){
+        List<Integer> issues =
+            given()
                 .spec(reqSpec)
-                .when()
+            .when()
                 .get("/issues")
-                .then()
+            .then()
                 .extract()
                 .jsonPath()
                 .get("number");
@@ -178,7 +215,8 @@ public class RESTAssuredFunctionalTests {
         for (int issueId: issues){
             given()
                     .spec(reqSpec)
-                    .delete(issuesPath + "/" + issueId);
+                .when();
+//                    .delete(issuesPath + "/" + issueId);
         }
     }
 }
