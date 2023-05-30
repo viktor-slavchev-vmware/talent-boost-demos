@@ -1,5 +1,5 @@
-package com.vmware.talentboost;
-import com.vmware.talentboost.actors.IssueE2EActor;
+package com.vmware.talentboost.api;
+import com.vmware.talentboost.api.actors.IssueE2EActor;
 import com.vmware.talentboost.objects.IssueComment;
 import com.vmware.talentboost.objects.Issue;
 import io.github.cdimascio.dotenv.Dotenv;

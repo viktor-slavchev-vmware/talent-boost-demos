@@ -1,4 +1,4 @@
-package com.vmware.talentboost;
+package com.vmware.talentboost.api;
 
 import com.vmware.talentboost.objects.Issue;
 import io.restassured.RestAssured;

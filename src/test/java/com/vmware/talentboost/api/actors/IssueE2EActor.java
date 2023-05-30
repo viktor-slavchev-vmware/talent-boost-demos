@@ -1,4 +1,4 @@
-package com.vmware.talentboost.actors;
+package com.vmware.talentboost.api.actors;
 
 import com.vmware.talentboost.URLTemplate;
 import com.vmware.talentboost.objects.IssueComment;

@@ -1,4 +1,4 @@
-package com.vmware.talentboost;
+package com.vmware.talentboost.api;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.restassured.RestAssured;
