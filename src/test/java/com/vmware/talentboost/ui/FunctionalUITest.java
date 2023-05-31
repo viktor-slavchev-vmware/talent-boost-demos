@@ -15,13 +15,14 @@ import java.time.format.DateTimeFormatter;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FunctionalUITestDemos {
+public class FunctionalUITest {
     public static final String TASK_NAME = "QE FE homework";
     public static final String DESCRIPTION = "Finish your assignment";
     public static final String DATE = "2023-06-07";
     public static final String PRIORITY = "Priority 1";
-    private static Playwright playwright;
     private static Browser browser;
+
+    private static Page currentPage;
 
     BrowserContext context;
     @BeforeAll
@@ -31,12 +32,9 @@ public class FunctionalUITestDemos {
 //                new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(100)
 //        );
         browser = BrowserFactory.create(BrowserTypesEnum.FIREFOX, false, 100);
+//        currentPage = browser.newPage();
     }
 
-    @AfterAll
-    static void closeBrowser() {
-//        playwright.close();
-    }
 
     @BeforeEach
     void createContext(){
@@ -62,11 +60,10 @@ public class FunctionalUITestDemos {
     public void testLogin(){
         Page loginPage = context.newPage();
         loginPage.navigate("https://todoist.com/");
-        loginPage.getByText("Log in").nth(0).first().click(); // flaky strategy, there's two elements on page that match this description
+        loginPage.getByText("Log in").nth(0).click(); // flaky strategy, there's two elements on page that match this description
         loginPage.waitForURL("**/auth/login");
 //        assertThat(loginPage.title(), is("Log in to Todoist"));
         PlaywrightAssertions.assertThat(loginPage).hasTitle("Log in to Todoist");
-//        loginPage.pause();
         Locator emailField = loginPage.locator("input#element-0");
         Locator passwordField = loginPage.locator("#element-3");
         emailField.type("vslavchev@vmware.com");
@@ -83,6 +80,7 @@ public class FunctionalUITestDemos {
     public void testCreateTask(){
         // Create a new context with the saved storage state.
         context = getLoggedInState();
+        currentPage = context.newPage();
 
         // Without page object
 //        Page todoPage = context.newPage();
@@ -90,14 +88,15 @@ public class FunctionalUITestDemos {
 //        todosPage.waitForURL("**/app/today");
 
         // With Page object
-        TodosHome todosPage = new TodosHome(context);
+        TodosHome todosPage = new TodosHome(currentPage);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         todosPage.page.setViewportSize(screenSize.width, screenSize.height);
         todosPage.navigate();
         todosPage.page.waitForURL("**/app/today");
         PlaywrightAssertions.assertThat(todosPage.page).hasTitle("Today: Todoist");
 
-        todosPage.createNewTask(TASK_NAME, DESCRIPTION, "Today", PRIORITY);
+        todosPage.getAddNewTaskButton().click();
+        todosPage.createNewTask(TASK_NAME, DESCRIPTION, "Today");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime today = LocalDateTime.now();
 
@@ -110,7 +109,9 @@ public class FunctionalUITestDemos {
     @Order(3)
     public void testDeleteTask(){
         context = getLoggedInState();
-        TodosHome todosPage = new TodosHome(context);
+        currentPage = context.newPage();
+
+        TodosHome todosPage = new TodosHome(currentPage);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         todosPage.page.setViewportSize(screenSize.width, screenSize.height);
         todosPage.navigate();

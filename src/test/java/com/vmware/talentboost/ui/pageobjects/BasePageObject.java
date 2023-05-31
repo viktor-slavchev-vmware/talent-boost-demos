@@ -15,9 +15,9 @@ public class BasePageObject {
     protected final String BASE_URL;
     public Page page;
 
-    public BasePageObject(BrowserContext context) {
+    public BasePageObject(Page page) {
         this.BASE_URL = dotenv.get("BASE_UI_URL");
-        this.page = context.newPage();
+        this.page = page;
         this.dateExpand = this.page.locator("div[aria-label='Set due date']");
         this.dateSearchField = this.page.locator("div.scheduler-input input");
     }
